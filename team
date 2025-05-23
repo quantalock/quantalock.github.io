@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Náš tým | Quantalock</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #222;
+    }
+
+    header {
+      background-color: #0b1f33;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    .intro {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.1rem;
+      color: #444;
+    }
+
+    .team-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .member {
+      width: 205px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+      overflow: hidden;
+      text-align: center;
+      padding-bottom: 1rem;
+      transition: transform 0.2s;
+    }
+
+    .member:hover {
+      transform: scale(1.03);
+    }
+
+    .member img {
+      width: 100%;
+      display: block;
+    }
+
+    .member h3 {
+      margin: 0.8rem 0 0.2rem;
+      font-size: 1.1rem;
+      color: #0b1f33;
+    }
+
+    .member p {
+      margin: 0 0.6rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.8rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Náš tým</h1>
+</header>
+
+<main>
+  <div class="intro">
+    <p>Věříme, že i technologie si zaslouží lidskou tvář – nebo alespoň virtuální.  
+    Naši čtyři kolegové nejsou z masa a kostí, ale vznikli kombinací algoritmů a kreativity.  
+    Každý z nich má svou osobnost, odbornost a tvář, která nám pomáhá komunikovat složitá témata srozumitelně a s nadhledem.  
+    A Jaroslav? Ten je skutečný.</p>
+  </div>
+
+  <div class="team-grid">
+    <div class="member">
+      <img src="assets/team_marek_m.jpg" alt="Marek Pail">
+      <h3>Marek Pail</h3>
+      <p>Technický ředitel (CTO)<br>Postkvantová kryptografie, preciznost a klid.</p>
+    </div>
+    <div class="member">
+      <img src="assets/team_lucie_m.jpg" alt="Lucia Saitová">
+      <h3>Lucia Saitová</h3>
+      <p>Compliance & regulace<br>Právo, standardy NIST, ostrá logika i empatie.</p>
+    </div>
+    <div class="member">
+      <img src="assets/team_daniel_m.jpg" alt="Daniel Kainar">
+      <h3>Daniel Kainar</h3>
+      <p>Kvantový výzkum<br>Superpozice nápadů i nepraktických poznámek.</p>
+    </div>
+    <div class="member">
+      <img src="assets/team_aida_m.jpg" alt="Aida Blažková">
+      <h3>Aida Blažková</h3>
+      <p>Adopce technologií<br>Infografiky, onboarding a lidský přístup.</p>
+    </div>
+    <div class="member">
+      <img src="assets/team_jarda_m.jpg" alt="Jaroslav Hercík">
+      <h3>Jaroslav Hercík</h3>
+      <p>Zakladatel & CEO<br>Vizionář s vášní pro bezpečnost i vyprávění.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 Quantalock. Všechna práva vyhrazena.
+</footer>
+
+</body>
+</html>
