@@ -32,6 +32,9 @@ body {
   color: white;
   text-decoration: none;
 }
+.logo img {
+  height: 40px;
+}
 .main-nav ul {
   list-style: none;
   display: flex;
