@@ -10,34 +10,48 @@
     body {
       margin: 0;
       background-color: #000;
-      color: white;
-      font-family: 'Poppins', sans-serif;
-      background-image: url('assets/logo-tabule.jpg');
+      background-image: url('bg-smazana.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
+      font-family: 'Poppins', sans-serif;
+      color: white;
       text-align: center;
-      padding: 80px 20px;
+      padding: 60px 20px;
+    }
+
+    .logo {
+      width: 60%;
+      max-width: 600px;
+      margin-bottom: 30px;
+      filter: invert(100%) brightness(200%);
     }
 
     h1 {
-      font-size: 3em;
-      font-weight: 600;
+      font-size: 2.8em;
       margin-bottom: 0.2em;
-      text-shadow: 1px 1px 2px #333;
+      font-weight: 600;
+      text-shadow: 1px 1px 3px #222;
     }
 
     p.slogan {
-      font-size: 1.5em;
+      font-size: 1.4em;
       font-weight: 300;
       margin-top: 0;
       margin-bottom: 2em;
-      text-shadow: 1px 1px 2px #222;
+      text-shadow: 1px 1px 2px #111;
+    }
+
+    .three-points {
+      max-width: 700px;
+      margin: 0 auto 3em auto;
+      font-size: 1.1em;
+      line-height: 1.6;
     }
 
     .buttons a {
       display: inline-block;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
       color: white;
       text-decoration: none;
       padding: 12px 24px;
@@ -61,10 +75,17 @@
   </style>
 </head>
 <body>
+
+  <img src="logo_krivky.svg" alt="Quantalock logo" class="logo" />
+
   <h1>Quantalock</h1>
   <p class="slogan">Unbreakable solutions</p>
 
-  <p>Postkvantové zabezpečení, kterému rozumíte – a které můžete nasadit hned.</p>
+  <div class="three-points">
+    <p>🔒 <strong>Postkvantová ochrana bez kompromisů</strong></p>
+    <p>🧠 <strong>Porozumění místo marketingu</strong></p>
+    <p>⚙️ <strong>Implementace už dnes – i bez kvantových počítačů</strong></p>
+  </div>
 
   <div class="buttons">
     <a href="technologie.html">Naše technologie</a>
@@ -75,6 +96,6 @@
   <footer>
     &copy; 2025 Quantalock. Všechna práva vyhrazena.
   </footer>
+
 </body>
 </html>
-
