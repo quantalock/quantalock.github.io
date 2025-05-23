@@ -17,7 +17,7 @@ body {
 /* Hlavička */
 .site-header {
   background-color: #0c1e30;
-  padding: 0.3rem 0.3rem;
+  padding: 0.3rem 1rem;
 }
 .site-header .container {
   display: flex;
