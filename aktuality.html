@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aktuality | Quantalock</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .news-table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    .news-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      vertical-align: top;
+    }
+    .news-table td:first-child {
+      width: 110px;
+      font-weight: bold;
+      color: #b5d9ff;
+    }
+    .news-table td strong {
+      display: block;
+      font-size: 1.1rem;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo-small.png" alt="Quantalock logo">
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="aktuality.html" class="active">Aktuality</a></li>
+          <li><a href="technologie.html">Technologie</a></li>
+          <li><a href="overeni.html">Ověření certifikátů</a></li>
+          <li><a href="skoleni/">Online školení</a></li>
+          <li><a href="kvantove-hrozby.html">Edukační videa</a></li>
+          <li><a href="team.html">O nás</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="intro">
+      <h1>Aktuality</h1>
+      <p>Novinky ze světa kvantového zabezpečení, postkvantové kryptografie a dění v rámci projektu Quantalock.</p>
+    </div>
+
+    <table class="news-table" id="news-table">
+      <!-- Data budou vložena JavaScriptem -->
+    </table>
+  </main>
+
+  <footer class="site-footer">
+    &copy; 2025 Quantalock. Všechna práva vyhrazena.
+    | <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a>
+  </footer>
+
+  <script>
+    fetch('assets/aktuality.csv')
+      .then(response => response.text())
+      .then(text => {
+        const rows = text.trim().split('\n').slice(1); // přeskoč hlavičku
+        const table = document.getElementById('news-table');
+        rows.reverse().forEach(line => {
+          const parts = line.split(',');
+          const datum = parts[0];
+          const titulek = parts[1];
+          const zprava = parts.slice(2).join(','); // pro jistotu spojíme i kdyby obsahoval čárky
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${datum}</td>
+            <td><strong>${titulek}</strong>${zprava ? '<br>' + zprava : ''}</td>`;
+          table.appendChild(row);
+        });
+      });
+  </script>
+
+</body>
+</html>
