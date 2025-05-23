@@ -77,8 +77,3 @@ body {
   padding: 0.6rem 0.6rem 0.8rem;
   text-align: center;
   transition: transform 0.3s ease;
-
-/* Zmenšení loga pouze na stránce Náš tým */
-.team-page .logo img {
-  height: 40px;
-}
