@@ -1,4 +1,4 @@
-datum,titulek,text
-2025-05-23,Spuštění webu Quantalock,Oficiálně jsme spustili nový web s týmem, edukačními videi a ověřováním certifikátů.
-2025-05-18,Edukativní série online,Prvních osm dílů série Kvantové hrozby je dostupných na YouTube.
-2025-05-10,Workshop s IBM a NOKIA,Připravujeme červnový workshop o síťovém zabezpečení a kvantové odolnosti.
+datum,titulek,text,odkaz
+2025-05-23,Spuštění webu Quantalock,Oficiálně jsme spustili nový web.,https://quantalock.github.io
+2025-05-18,Edukativní série online,Prvních osm dílů je dostupných.,https://www.youtube.com/@Quantalock
+2025-05-10,Workshop s IBM a NOKIA,Připravujeme červnový workshop,
