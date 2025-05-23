@@ -4,78 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Náš tým | Quantalock</title>
+  <link rel="stylesheet" href="style.css"> <!-- Pokud máš globální styl -->
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-      color: #222;
+      background-color: #f4f7fa;
+      color: #111;
     }
 
     header {
-      background-color: #0b1f33;
+      background-color: #0c1e30;
       color: white;
-      padding: 2rem 1rem;
+      padding: 3rem 1rem 2rem;
       text-align: center;
     }
 
     header h1 {
       margin: 0;
-      font-size: 2rem;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 2rem 1rem;
+      font-size: 2.4rem;
     }
 
     .intro {
+      max-width: 800px;
+      margin: 2rem auto;
       text-align: center;
-      max-width: 700px;
-      margin: 0 auto 3rem;
       font-size: 1.1rem;
-      color: #444;
+      line-height: 1.6;
+      color: #333;
     }
 
     .team-grid {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 2rem;
-      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
     }
 
     .member {
-      width: 205px;
       background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       overflow: hidden;
       text-align: center;
-      padding-bottom: 1rem;
-      transition: transform 0.2s;
+      transition: transform 0.3s ease;
     }
 
     .member:hover {
-      transform: scale(1.03);
+      transform: translateY(-5px);
     }
 
     .member img {
       width: 100%;
+      height: auto;
       display: block;
     }
 
     .member h3 {
       margin: 0.8rem 0 0.2rem;
-      font-size: 1.1rem;
-      color: #0b1f33;
+      font-size: 1.2rem;
+      color: #0c1e30;
     }
 
     .member p {
-      margin: 0 0.6rem;
       font-size: 0.9rem;
       color: #555;
+      padding: 0 1rem 1rem;
     }
 
     footer {
@@ -83,24 +79,23 @@
       padding: 2rem 1rem;
       font-size: 0.8rem;
       color: #999;
+      background: #f0f0f0;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Náš tým</h1>
+  </header>
 
-<header>
-  <h1>Náš tým</h1>
-</header>
-
-<main>
   <div class="intro">
-    <p>Věříme, že i technologie si zaslouží lidskou tvář – nebo alespoň virtuální.  
-    Naši čtyři kolegové nejsou z masa a kostí, ale vznikli kombinací algoritmů a kreativity.  
-    Každý z nich má svou osobnost, odbornost a tvář, která nám pomáhá komunikovat složitá témata srozumitelně a s nadhledem.  
+    <p>Věříme, že i technologie si zaslouží lidskou tvář – nebo alespoň virtuální. <br>
+    Naši čtyři kolegové nejsou z masa a kostí, ale vznikli kombinací algoritmů a kreativity. <br>
+    Každý z nich má svou osobnost, odbornost a tvář, která nám pomáhá komunikovat složitá témata srozumitelně a s nadhledem. <br>
     A Jaroslav? Ten je skutečný.</p>
   </div>
 
-  <div class="team-grid">
+  <section class="team-grid">
     <div class="member">
       <img src="assets/team_marek_m.jpg" alt="Marek Pail">
       <h3>Marek Pail</h3>
@@ -126,12 +121,10 @@
       <h3>Jaroslav Hercík</h3>
       <p>Zakladatel & CEO<br>Vizionář s vášní pro bezpečnost i vyprávění.</p>
     </div>
-  </div>
-</main>
+  </section>
 
-<footer>
-  &copy; 2025 Quantalock. Všechna práva vyhrazena.
-</footer>
-
+  <footer>
+    &copy; 2025 Quantalock. Všechna práva vyhrazena.
+  </footer>
 </body>
 </html>
