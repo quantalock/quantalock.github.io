@@ -1,4 +1,4 @@
-/* Základní reset a font */
+/* Reset a základní písmo */
 * {
   margin: 0;
   padding: 0;
@@ -6,8 +6,11 @@
 }
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f4f7fa;
-  color: #111;
+  background-image: url('assets/bg-smazana.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
   line-height: 1.6;
 }
 
@@ -23,19 +26,19 @@ body {
   max-width: 1200px;
   margin: auto;
 }
-.site-header .logo a {
-  font-size: 1.5rem;
+.logo a {
+  font-size: 1.6rem;
+  font-weight: bold;
   color: white;
   text-decoration: none;
-  font-weight: bold;
 }
 .main-nav ul {
   list-style: none;
   display: flex;
-  gap: 1.2rem;
+  gap: 1.5rem;
 }
 .main-nav a {
-  color: #cfe6ff;
+  color: #b5d9ff;
   text-decoration: none;
   font-weight: 500;
 }
@@ -45,7 +48,7 @@ body {
   text-decoration: underline;
 }
 
-/* Hlavní obsah */
+/* Obsah */
 .page-content {
   padding: 4rem 1rem;
   max-width: 1200px;
@@ -56,16 +59,20 @@ body {
   max-width: 800px;
   margin: 0 auto 3rem;
   font-size: 1.1rem;
-  color: #444;
+  color: white;
 }
 
-/* Tým */
+/* Týmové karty */
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 2rem;
 }
 .member {
-  background: white;
+  background-color: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease;
