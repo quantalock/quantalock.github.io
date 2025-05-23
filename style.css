@@ -1,0 +1,71 @@
+/* Základní reset a font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f7fa;
+  color: #111;
+  line-height: 1.6;
+}
+
+/* Hlavička */
+.site-header {
+  background-color: #0c1e30;
+  padding: 1.5rem 1rem;
+}
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+}
+.site-header .logo a {
+  font-size: 1.5rem;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+}
+.main-nav a {
+  color: #cfe6ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.main-nav a:hover,
+.main-nav .active {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Hlavní obsah */
+.page-content {
+  padding: 4rem 1rem;
+  max-width: 1200px;
+  margin: auto;
+}
+.intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+/* Tým */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+.member {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
