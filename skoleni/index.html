@@ -60,8 +60,14 @@
 
       doc.setFont("Poppins", "normal");
       doc.addImage(background, 'JPEG', 0, 0, 210, 297);
-      doc.addImage(logo, 'PNG', 80, 20, 50, 20);
 
+      // Zvětšení loga uprostřed stránky
+      const logoWidth = 100;
+      const logoHeight = 32; // upraveno proporčně
+      const pageCenter = 105; // A4 na šířku = 210 mm / 2
+      doc.addImage(logo, 'PNG', pageCenter - logoWidth / 2, 15, logoWidth, logoHeight);
+
+      
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(20);
       doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 60, { align: "center" });
