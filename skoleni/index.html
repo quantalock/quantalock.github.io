@@ -1,98 +1,59 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <title>Online školení | Quantalock</title>
+  <meta charset="UTF-8">
+  <title>Certifikát s fontem Poppins</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: url('../assets/bg-smazana.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-      text-align: center;
-      padding: 4rem 1rem;
-    }
-    input {
-      padding: 0.6rem;
-      font-size: 1rem;
-      width: 300px;
-      border-radius: 6px;
-      border: none;
-      margin-bottom: 1rem;
-    }
-    button {
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
-      background-color: white;
-      color: black;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background-color: #ccc;
-    }
-  </style>
 </head>
-<body>
-
-  <h1>Vytvořte si svůj certifikát</h1>
-  <p>Zadejte své jméno a příjmení. Po vygenerování můžete certifikát ověřit na stránce ověření.</p>
-
-  <input type="text" id="nameInput" placeholder="Jméno a příjmení" />
-  <br />
-  <button onclick="generateCertificate()">Vytisknout certifikát</button>
+<body style="text-align: center; font-family: sans-serif; background: #111; color: white; padding: 2rem;">
+  <h1>Generátor certifikátu (Poppins)</h1>
+  <p>Zadejte své jméno:</p>
+  <input type="text" id="name" placeholder="Jméno a příjmení" style="padding: 0.5rem; font-size: 1rem;" />
+  <br><br>
+  <button onclick="generate()">Vytvořit PDF</button>
 
   <script>
-    async function generateCertificate() {
-      const { jsPDF } = window.jspdf;
-      const name = document.getElementById('nameInput').value.trim();
+    const { jsPDF } = window.jspdf;
+
+    // Base64 font Poppins-Regular (zkrácený náhled, v reálu by měl být kompletní)
+    const fontBase64 = 'AAEAAAAPAIAAAwBwRFNJRwAAAAEAAjeYAAAACEdERUYJFgkZAAH+PAAA...'; // ZDE vlož celý base64
+
+    jsPDF.API.events.push(['addFonts', function () {
+      this.addFileToVFS("Poppins-Regular.ttf", fontBase64);
+      this.addFont("Poppins-Regular.ttf", "Poppins", "normal");
+    }]);
+
+    function generate() {
+      const name = document.getElementById("name").value.trim();
       if (!name) {
-        alert("Zadejte prosím své jméno.");
+        alert("Zadejte jméno.");
         return;
       }
 
+      const today = new Date().toLocaleDateString('cs-CZ');
       const doc = new jsPDF();
-      const date = new Date().toLocaleDateString('cs-CZ');
-
-      // Záhlaví
-      doc.setFontSize(22);
-      doc.text("Quantalock", 105, 30, { align: "center" });
-
+      doc.setFont("Poppins");
       doc.setFontSize(18);
-      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 50, { align: "center" });
+      doc.setTextColor(0, 0, 0);
+      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 30, { align: "center" });
 
       doc.setFontSize(14);
-      doc.text(`Tímto potvrzujeme, že`, 105, 70, { align: "center" });
+      doc.text(`Tímto potvrzujeme, že`, 105, 45, { align: "center" });
 
       doc.setFontSize(16);
-      doc.text(name, 105, 85, { align: "center" });
-
-      doc.setFontSize(14);
-      doc.text(`úspěšně absolvoval(a) školení`, 105, 100, { align: "center" });
-
-      doc.setFontSize(16);
-      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 115, { align: "center" });
+      doc.text(name, 105, 55, { align: "center" });
 
       doc.setFontSize(12);
-      doc.text(`Datum vystavení: ${date}`, 105, 135, { align: "center" });
+      doc.text("úspěšně absolvoval(a) školení", 105, 65, { align: "center" });
+      doc.setFontSize(13);
+      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 75, { align: "center" });
 
       doc.setFontSize(10);
-      doc.text("Ověření certifikátu: https://quantalock.cz/overeni", 105, 150, { align: "center" });
+      doc.text("Datum vystavení: " + today, 105, 90, { align: "center" });
+      doc.text("Ověření: https://quantalock.cz/overeni", 105, 100, { align: "center" });
 
-      // Podpis
-      doc.setFontSize(12);
-      doc.text("Aida Blažková", 160, 250);
-      doc.setFontSize(10);
-      doc.text("Garant školení", 160, 257);
-
-      // Logo (pokud máš base64, můžeš vložit, jinak se zatím vynechá)
-
-      doc.save(`certifikat-${name.replaceAll(" ", "_")}.pdf`);
+      doc.save(`certifikat-${name.replace(/\s+/g, "_")}.pdf`);
     }
   </script>
-
 </body>
 </html>
