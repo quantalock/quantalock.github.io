@@ -1,91 +1,75 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <title>Online školení – Certifikát</title>
+  <meta charset="UTF-8" />
+  <title>Online školení | Quantalock</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
+      margin: 0;
       font-family: 'Poppins', sans-serif;
-      text-align: center;
-      color: white;
-      background-color: black;
       background-image: url('../assets/bg-smazana.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem;
     }
     input, button {
       padding: 10px;
-      margin: 10px;
       font-size: 1rem;
+      margin: 10px;
     }
-    .logo {
-      margin-top: 20px;
-      width: 200px;
+    button {
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <img src="../assets/logo.png" class="logo" alt="Logo Quantalock">
-  <h1>Generování certifikátu</h1>
-  <input type="text" id="jmeno" placeholder="Zadejte své jméno" />
-  <br>
-  <button onclick="generujCertifikat()">Vytisknout zkušební certifikát</button>
+  <h1>Generátor certifikátu</h1>
+  <input type="text" id="nameInput" placeholder="Zadejte své jméno" />
+  <button onclick="generatePDF()">Vytisknout zkušební certifikát</button>
 
-  <script type="module">
-    import {{ jsPDF }} from "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
-
-    window.generujCertifikat = async function () {{
-      const {{ jsPDF }} = window.jspdf;
+  <script>
+    async function generatePDF() {
+      const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
-      const jmeno = document.getElementById('jmeno').value || 'Neznámý uživatel';
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) {
+        alert("Zadejte své jméno.");
+        return;
+      }
 
-      // Pozadí obrázek
-      const bgImg = await fetch("../assets/bg-smazana.jpg").then(r => r.blob()).then(blob => {
-        return new Promise(resolve => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result);
-          reader.readAsDataURL(blob);
-        });
-      });
+      const today = new Date().toLocaleDateString('cs-CZ');
 
-      // Logo obrázek
-      const logoImg = await fetch("../assets/logo.png").then(r => r.blob()).then(blob => {
-        return new Promise(resolve => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result);
-          reader.readAsDataURL(blob);
-        });
-      });
+      const background = await loadImage("../assets/bg-smazana.jpg");
+      const logo = await loadImage("../assets/logo.png");
 
-      doc.addImage(bgImg, 'JPEG', 0, 0, 210, 297);
-      doc.addImage(logoImg, 'PNG', 65, 20, 80, 25);
+      doc.addImage(background, 'JPEG', 0, 0, 210, 297);
+      doc.addImage(logo, 'PNG', 80, 20, 50, 20);
 
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(20);
-      doc.setFont(undefined, 'bold');
-      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 60, {{ align: "center" }});
+      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 60, { align: "center" });
 
       doc.setFontSize(12);
-      doc.setFont(undefined, 'normal');
-      doc.text("Tímto potvrzujeme, že", 105, 75, {{ align: "center" }});
-      doc.setFont(undefined, 'bold');
-      doc.text(jmeno, 105, 85, {{ align: "center" }});
+      doc.text("Tímto potvrzujeme, že", 105, 75, { align: "center" });
 
-      doc.setFont(undefined, 'normal');
-      doc.text("úspěšně absolvoval(a) školení", 105, 95, {{ align: "center" }});
-      doc.setFont(undefined, 'bold');
-      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 105, {{ align: "center" }});
+      doc.setFontSize(14);
+      doc.text(name, 105, 85, { align: "center" });
+
+      doc.text("úspěšně absolvoval(a) školení", 105, 95, { align: "center" });
+
+      doc.setFontSize(13);
+      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 105, { align: "center" });
 
       doc.setFontSize(10);
-      doc.setFont(undefined, 'normal');
-      doc.text("Datum vystavení: 24. 5. 2025", 105, 115, {{ align: "center" }});
-      doc.text("Ověření certifikátu: https://quantalock.cz/overeni", 105, 122, {{ align: "center" }});
+      doc.text("Datum vystavení: " + today, 105, 115, { align: "center" });
+      doc.text("Ověření: https://quantalock.cz/overeni", 105, 122, { align: "center" });
 
-      const bodyText = [
+      const content = [
         "Absolvent kurzu má přehled o problematice:",
         "- vývoje kvantových počítačů a jejich možnostech",
         "- kryptografických metodách",
@@ -95,11 +79,21 @@
         "- doporučení NÚKIB v rámci kvantových hrozeb",
         "- metodice nasazení kvantově bezpečné kryptografie"
       ];
-      doc.setFontSize(8);
-      doc.text(bodyText, 25, 150);
 
-      doc.save("certifikat-" + jmeno.replace(/\s+/g, '_') + ".pdf");
-    }}
+      doc.setFontSize(9);
+      doc.text(content, 25, 150);
+
+      doc.save(`certifikat-${name.replace(/\\s+/g, '_')}.pdf`);
+    }
+
+    function loadImage(url) {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = () => resolve(img);
+        img.src = url;
+      });
+    }
   </script>
 </body>
 </html>
