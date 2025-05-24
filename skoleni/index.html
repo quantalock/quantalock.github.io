@@ -73,7 +73,7 @@
       doc.text("CERTIFIKÁT", 105, 90, { align: "center" });
 
       doc.setFontSize(20);
-      doc.text("o absolvování kurzu", 105, 120, { align: "center" });
+      doc.text("o absolvování kurzu", 105, 100, { align: "center" });
 
 
       
@@ -81,16 +81,15 @@
       //doc.text("Tímto potvrzujeme, že", 105, 80, { align: "center" });
 
       doc.setFontSize(14);
-      doc.text(name, 105, 85, { align: "center" });
+      doc.text(name, 105, 120, { align: "center" });
+      //doc.text("úspěšně absolvoval(a) školení", 105, 130, { align: "center" });
 
-      doc.text("úspěšně absolvoval(a) školení", 105, 95, { align: "center" });
-
-      doc.setFontSize(16);
-      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 120, { align: "center" });
+      doc.setFontSize(22);
+      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 140, { align: "center" });
 
       doc.setFontSize(10);
-      doc.text("Datum vystavení: " + today, 105, 115, { align: "center" });
-      doc.text("Ověření: https://quantalock.cz/overeni", 105, 122, { align: "center" });
+      doc.text("Datum vystavení: " + today, 105, 200, { align: "center" });
+      doc.text("Ověření: https://quantalock.cz/overeni", 105, 222, { align: "center" });
 
       const content = [
         "Absolvent kurzu má přehled o problematice:",
