@@ -63,14 +63,14 @@
 
       // Zvětšení loga uprostřed stránky
       const logoWidth = 100;
-      const logoHeight = 32; // upraveno proporčně
+      const logoHeight = 42; // upraveno proporčně
       const pageCenter = 105; // A4 na šířku = 210 mm / 2
       doc.addImage(logo, 'PNG', pageCenter - logoWidth / 2, 15, logoWidth, logoHeight);
 
       
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(20);
-      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 60, { align: "center" });
+      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ ŠKOLENÍ", 105, 60, { align: "center" });
 
       doc.setFontSize(12);
       doc.text("Tímto potvrzujeme, že", 105, 75, { align: "center" });
