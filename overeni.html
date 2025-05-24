@@ -2,48 +2,33 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ověření certifikátu | Quantalock</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .verify-section {
+    .result-image {
+      max-width: 240px;
+      margin: 1rem auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      display: block;
+    }
+    .result-text {
       text-align: center;
-      padding: 4rem 1rem;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    .verify-section input[type="file"] {
-      margin-top: 1rem;
-    }
-
-    .verify-section .result {
-      margin-top: 2rem;
       font-size: 1.1rem;
-      font-weight: bold;
+      margin-top: 0.8rem;
     }
-
-    .verify-section .result.success {
-      color: #4ce67a;
+    #result.ok {
+      color: #b7ffb3;
     }
-
-    .verify-section .result.fail {
-      color: #ff6e6e;
-    }
-
-    .verify-section a {
-      color: white;
-      text-decoration: underline;
-      font-size: 0.95rem;
-      display: inline-block;
-      margin-top: 1rem;
+    #result.fail {
+      color: #ff9c9c;
     }
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <a href="index.html" class="logo"><img src="assets/logo-small.png" alt="Quantalock" /></a>
+      <a href="index.html" class="logo"><img src="assets/logo-small.png" alt="Quantalock logo"></a>
       <nav class="main-nav">
         <ul>
           <li><a href="aktuality.html">Aktuality</a></li>
@@ -58,13 +43,18 @@
     </div>
   </header>
 
-  <main class="verify-section">
+  <main class="page-content">
     <h1>Ověření certifikátu</h1>
     <p>Nahrajte PDF certifikát. Systém ověří, zda je jeho hash přítomen v oficiálním seznamu.</p>
-    <input type="file" id="pdfFile" accept="application/pdf" />
-    <div class="result" id="result"></div>
-    <p style="margin-top: 2rem;">Můžete si certifikáty ověřit i samy. Zde jsou ke stažení hash certifikátu (funkce SHA-256).</p>
-    <a href="assets/certifikaty.csv" download>⬇ Stáhnout veřejný seznam hashů certifikátů (.csv)</a>
+    
+    <div style="text-align: center; margin-top: 2rem;">
+      <img id="aida-img" src="assets/team_aida_m.jpg" alt="Aida Blažková" class="result-image" />
+      <input type="file" id="pdfInput" accept=".pdf" />
+      <div id="result" class="result-text"></div>
+      <p style="margin-top: 2rem;">📄 <a href="certifikaty.csv" style="color: white; text-decoration: underline;">
+        Stáhnout veřejný seznam hashů certifikátů (.csv)</a></p>
+      <p style="font-size: 0.9rem; color: #ccc;">Můžete si certifikáty ověřit i sami. Zde jsou ke stažení hash certifikátu (funkce SHA-256).</p>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -72,34 +62,38 @@
   </footer>
 
   <script>
-    document.getElementById('pdfFile').addEventListener('change', async function (event) {
-      const file = event.target.files[0];
-      const resultElement = document.getElementById('result');
-      resultElement.textContent = '';
+    async function sha256(buffer) {
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
 
+    async function loadHashes() {
+      const res = await fetch('certifikaty.csv');
+      const text = await res.text();
+      return new Set(text.trim().split('\n'));
+    }
+
+    document.getElementById('pdfInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
       if (!file) return;
 
       const buffer = await file.arrayBuffer();
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      const hash = await sha256(buffer);
+      const hashes = await loadHashes();
 
-      fetch('assets/certifikaty.csv')
-        .then(response => response.text())
-        .then(text => {
-          const lines = text.split('\n').map(line => line.trim());
-          if (lines.includes(hashHex)) {
-            resultElement.textContent = '✅ Certifikát je platný.';
-            resultElement.className = 'result success';
-          } else {
-            resultElement.textContent = '❌ Certifikát nebyl nalezen v seznamu.';
-            resultElement.className = 'result fail';
-          }
-        })
-        .catch(() => {
-          resultElement.textContent = 'Chyba při načítání seznamu.';
-          resultElement.className = 'result fail';
-        });
+      const resultEl = document.getElementById('result');
+      const imgEl = document.getElementById('aida-img');
+
+      if (hashes.has(hash)) {
+        resultEl.textContent = "✅ Potvrzuji jako zodpovědná osoba, že tento certifikát je platný.";
+        resultEl.className = "result-text ok";
+        imgEl.src = "assets/team_aida_mk.jpg";
+      } else {
+        resultEl.textContent = "❌ Tento certifikát není platný nebo nebyl nalezen v oficiálním seznamu.";
+        resultEl.className = "result-text fail";
+        imgEl.src = "assets/team_aida_mz.jpg";
+      }
     });
   </script>
 </body>
