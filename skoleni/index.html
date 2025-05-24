@@ -32,93 +32,103 @@
   <button id="generateBtn">Vytisknout zkušební certifikát</button>
 
   <script>
-    document.getElementById('generateBtn').addEventListener('click', async () => {
-      const { jsPDF } = window.jspdf;
+  document.getElementById('generateBtn').addEventListener('click', async () => {
+    const { jsPDF } = window.jspdf;
 
-      try {
-        const doc = new jsPDF();
+    try {
+      const doc = new jsPDF();
 
-        const name = document.getElementById('nameInput').value.trim();
-        if (!name) {
-          alert("Zadejte své jméno.");
-          return;
-        }
-
-        const today = new Date().toLocaleDateString('cs-CZ');
-
-        const background = await loadImage("../assets/bg-smazana.jpg");
-        const logo = await loadImage("../assets/logo.png");
-
-        const poppinsFont = await fetch("../assets/poppins.regular.ttf").then(res => res.arrayBuffer());
-        const meowFont = await fetch("../assets/MeowScript-Regular.ttf").then(res => res.arrayBuffer());
-
-        doc.addFileToVFS("poppins.regular.ttf", btoa(String.fromCharCode(...new Uint8Array(poppinsFont))));
-        doc.addFont("poppins.regular.ttf", "Poppins", "normal");
-
-        doc.addFileToVFS("MeowScript-Regular.ttf", btoa(String.fromCharCode(...new Uint8Array(meowFont))));
-        doc.addFont("MeowScript-Regular.ttf", "Meow", "normal");
-
-        doc.setFont("Poppins", "normal");
-        doc.addImage(background, 'JPEG', 0, 0, 210, 297);
-        doc.addImage(logo, 'PNG', 80, 20, 50, 20);
-
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(20);
-        doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 60, { align: "center" });
-
-        doc.setFontSize(12);
-        doc.text("Tímto potvrzujeme, že", 105, 75, { align: "center" });
-
-        doc.setFontSize(14);
-        doc.text(name, 105, 85, { align: "center" });
-
-        doc.text("úspěšně absolvoval(a) školení", 105, 95, { align: "center" });
-
-        doc.setFontSize(13);
-        doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 105, { align: "center" });
-
-        doc.setFontSize(10);
-        doc.text("Datum vystavení: " + today, 105, 115, { align: "center" });
-        doc.text("Ověření: https://quantalock.cz/overeni", 105, 122, { align: "center" });
-
-        const content = [
-          "Absolvent kurzu má přehled o problematice:",
-          "- vývoje kvantových počítačů a jejich možnostech",
-          "- kryptografických metodách",
-          "- podstatě principu HNDL",
-          "- PQC (postkvantových algoritmech)",
-          "- QKD (kvantové distribuci klíčů)",
-          "- doporučení NÚKIB v rámci kvantových hrozeb",
-          "- metodice nasazení kvantově bezpečné kryptografie"
-        ];
-
-        doc.setFontSize(9);
-        doc.text(content, 25, 150);
-
-        // podpis
-        doc.setFont("Meow", "normal");
-        doc.setFontSize(28);
-        doc.text("Aida Blažková", 150, 185);
-
-        doc.setFont("Poppins", "normal");
-        doc.setFontSize(9);
-        doc.text("garantka školení", 150, 192);
-
-        doc.save(`certifikat-${name.replace(/\s+/g, '_')}.pdf`);
-      } catch (e) {
-        console.error("Chyba při generování PDF:", e);
-        alert("Něco se nepovedlo při generování certifikátu.");
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) {
+        alert("Zadejte své jméno.");
+        return;
       }
-    });
 
-    function loadImage(url) {
-      return new Promise(resolve => {
-        const img = new Image();
-        img.crossOrigin = "Anonymous";
-        img.onload = () => resolve(img);
-        img.src = url;
-      });
+      const today = new Date().toLocaleDateString('cs-CZ');
+
+      const background = await loadImage("../assets/bg-smazana.jpg");
+      const logo = await loadImage("../assets/logo.png");
+
+      const poppinsFont = await fetch("../assets/poppins.regular.ttf").then(res => res.arrayBuffer());
+      const meowFont = await fetch("../assets/MeowScript-Regular.ttf").then(res => res.arrayBuffer());
+
+      doc.addFileToVFS("poppins.regular.ttf", arrayBufferToBase64(poppinsFont));
+      doc.addFont("poppins.regular.ttf", "Poppins", "normal");
+
+      doc.addFileToVFS("MeowScript-Regular.ttf", arrayBufferToBase64(meowFont));
+      doc.addFont("MeowScript-Regular.ttf", "Meow", "normal");
+
+      doc.setFont("Poppins", "normal");
+      doc.addImage(background, 'JPEG', 0, 0, 210, 297);
+      doc.addImage(logo, 'PNG', 80, 20, 50, 20);
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(20);
+      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 60, { align: "center" });
+
+      doc.setFontSize(12);
+      doc.text("Tímto potvrzujeme, že", 105, 75, { align: "center" });
+
+      doc.setFontSize(14);
+      doc.text(name, 105, 85, { align: "center" });
+
+      doc.text("úspěšně absolvoval(a) školení", 105, 95, { align: "center" });
+
+      doc.setFontSize(13);
+      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 105, { align: "center" });
+
+      doc.setFontSize(10);
+      doc.text("Datum vystavení: " + today, 105, 115, { align: "center" });
+      doc.text("Ověření: https://quantalock.cz/overeni", 105, 122, { align: "center" });
+
+      const content = [
+        "Absolvent kurzu má přehled o problematice:",
+        "- vývoje kvantových počítačů a jejich možnostech",
+        "- kryptografických metodách",
+        "- podstatě principu HNDL",
+        "- PQC (postkvantových algoritmech)",
+        "- QKD (kvantové distribuci klíčů)",
+        "- doporučení NÚKIB v rámci kvantových hrozeb",
+        "- metodice nasazení kvantově bezpečné kryptografie"
+      ];
+
+      doc.setFontSize(9);
+      doc.text(content, 25, 150);
+
+      // podpis
+      doc.setFont("Meow", "normal");
+      doc.setFontSize(28);
+      doc.text("Aida Blažková", 150, 185);
+
+      doc.setFont("Poppins", "normal");
+      doc.setFontSize(9);
+      doc.text("garantka školení", 150, 192);
+
+      doc.save(`certifikat-${name.replace(/\s+/g, '_')}.pdf`);
+    } catch (e) {
+      console.error("Chyba při generování PDF:", e);
+      alert("Něco se nepovedlo při generování certifikátu.");
     }
-  </script>
+  });
+
+  function loadImage(url) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.onload = () => resolve(img);
+      img.src = url;
+    });
+  }
+
+  function arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  }
+</script>
+
 </body>
 </html>
