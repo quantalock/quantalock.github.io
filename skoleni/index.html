@@ -101,7 +101,7 @@
       ];
 
       doc.setFontSize(11);
-      doc.text(content, 25, 180, { align: "center" });
+      doc.text(content, 105, 180, { align: "center" });
 
 
       doc.setFontSize(12);
@@ -110,7 +110,7 @@
       doc.text("Datum vystavení", 40, 250);
       
       
-      doc.text("Ověření: https://quantalock.cz/overeni", 105, 260, { align: "center" });
+      doc.text("Ověření: https://quantalock.cz/overeni", 105, 270, { align: "center" });
 
 
       
@@ -121,7 +121,7 @@
 
       doc.setFont("Poppins", "normal");
       doc.setFontSize(9);
-      doc.text("garantka školení", 140, 250);
+      doc.text("garantka školení", 150, 250);
 
       doc.save(`certifikat-${name.replace(/\s+/g, '_')}.pdf`);
     } catch (e) {
