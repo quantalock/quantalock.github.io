@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <title>Online školení | Quantalock</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('../assets/bg-smazana.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+    input {
+      padding: 0.6rem;
+      font-size: 1rem;
+      width: 300px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      background-color: white;
+      color: black;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Vytvořte si svůj certifikát</h1>
+  <p>Zadejte své jméno a příjmení. Po vygenerování můžete certifikát ověřit na stránce ověření.</p>
+
+  <input type="text" id="nameInput" placeholder="Jméno a příjmení" />
+  <br />
+  <button onclick="generateCertificate()">Vytisknout certifikát</button>
+
+  <script>
+    async function generateCertificate() {
+      const { jsPDF } = window.jspdf;
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) {
+        alert("Zadejte prosím své jméno.");
+        return;
+      }
+
+      const doc = new jsPDF();
+      const date = new Date().toLocaleDateString('cs-CZ');
+
+      // Záhlaví
+      doc.setFontSize(22);
+      doc.text("Quantalock", 105, 30, { align: "center" });
+
+      doc.setFontSize(18);
+      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 50, { align: "center" });
+
+      doc.setFontSize(14);
+      doc.text(`Tímto potvrzujeme, že`, 105, 70, { align: "center" });
+
+      doc.setFontSize(16);
+      doc.text(name, 105, 85, { align: "center" });
+
+      doc.setFontSize(14);
+      doc.text(`úspěšně absolvoval(a) školení`, 105, 100, { align: "center" });
+
+      doc.setFontSize(16);
+      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 115, { align: "center" });
+
+      doc.setFontSize(12);
+      doc.text(`Datum vystavení: ${date}`, 105, 135, { align: "center" });
+
+      doc.setFontSize(10);
+      doc.text("Ověření certifikátu: https://quantalock.cz/overeni", 105, 150, { align: "center" });
+
+      // Podpis
+      doc.setFontSize(12);
+      doc.text("Aida Blažková", 160, 250);
+      doc.setFontSize(10);
+      doc.text("Garant školení", 160, 257);
+
+      // Logo (pokud máš base64, můžeš vložit, jinak se zatím vynechá)
+
+      doc.save(`certifikat-${name.replaceAll(" ", "_")}.pdf`);
+    }
+  </script>
+
+</body>
+</html>
