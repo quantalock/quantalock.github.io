@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ověření certifikátu | Quantalock</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .verifikator {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    input[type="file"] {
+      margin: 2rem 0;
+    }
+    .result {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .result.ok {
+      color: #00ffcc;
+    }
+    .result.fail {
+      color: #ff6666;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo-small.png" alt="Quantalock logo">
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="aktuality.html">Aktuality</a></li>
+          <li><a href="technologie.html">Technologie</a></li>
+          <li><a href="overeni.html" class="active">Ověření certifikátů</a></li>
+          <li><a href="skoleni/">Online školení</a></li>
+          <li><a href="kvantove-hrozby.html">Edukační videa</a></li>
+          <li><a href="team.html">O nás</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="verifikator">
+      <h1>Ověření certifikátu</h1>
+      <p>Nahrajte PDF certifikát. Systém ověří, zda je jeho hash přítomen v oficiálním seznamu.</p>
+      
+      <input type="file" id="fileInput" accept="application/pdf" />
+      <div class="result" id="resultBox"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    &copy; 2025 Quantalock. Všechna práva vyhrazena.
+    | <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a>
+  </footer>
+
+  <script>
+    async function sha256(buffer) {
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function loadValidHashes() {
+      const response = await fetch('assets/certifikaty.csv');
+      const text = await response.text();
+      return text.trim().split('\n').map(line => line.trim());
+    }
+
+    document.getElementById('fileInput').addEventListener('change', async function (event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const resultBox = document.getElementById('resultBox');
+      resultBox.textContent = 'Ověřuji...';
+      resultBox.className = 'result';
+
+      const arrayBuffer = await file.arrayBuffer();
+      const hash = await sha256(arrayBuffer);
+      const validHashes = await loadValidHashes();
+
+      if (validHashes.includes(hash)) {
+        resultBox.textContent = '✅ Certifikát je platný.';
+        resultBox.classList.add('ok');
+      } else {
+        resultBox.textContent = '❌ Tento dokument nebyl nalezen mezi platnými certifikáty.';
+        resultBox.classList.add('fail');
+      }
+    });
+  </script>
+
+</body>
+</html>
