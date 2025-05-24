@@ -101,27 +101,27 @@
       ];
 
       doc.setFontSize(11);
-      doc.text(content, 25, 150);
+      doc.text(content, 25, 180, { align: "center" });
 
 
       doc.setFontSize(12);
-      doc.text(today, 40, 200);
-      doc.setFontSize(10);
-      doc.text("Datum vystavení", 40, 205);
+      doc.text(today, 42, 245);
+      doc.setFontSize(9);
+      doc.text("Datum vystavení", 40, 250);
       
       
-      doc.text("Ověření: https://quantalock.cz/overeni", 105, 222, { align: "center" });
+      doc.text("Ověření: https://quantalock.cz/overeni", 105, 260, { align: "center" });
 
 
       
       // podpis
       doc.setFont("Meow", "normal");
       doc.setFontSize(28);
-      doc.text("Aida Blažková", 140, 200);
+      doc.text("Aida Blažková", 140, 245);
 
       doc.setFont("Poppins", "normal");
       doc.setFontSize(9);
-      doc.text("garantka školení", 140, 205);
+      doc.text("garantka školení", 140, 250);
 
       doc.save(`certifikat-${name.replace(/\s+/g, '_')}.pdf`);
     } catch (e) {
