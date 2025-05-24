@@ -52,8 +52,8 @@
         const poppinsFont = await fetch("../assets/poppins.regular.ttf").then(res => res.arrayBuffer());
         const meowFont = await fetch("../assets/MeowScript-Regular.ttf").then(res => res.arrayBuffer());
 
-        doc.addFileToVFS("Poppins-Regular.ttf", btoa(String.fromCharCode(...new Uint8Array(poppinsFont))));
-        doc.addFont("Poppins-Regular.ttf", "Poppins", "normal");
+        doc.addFileToVFS("poppins.regular.ttf", btoa(String.fromCharCode(...new Uint8Array(poppinsFont))));
+        doc.addFont("poppins.regular.ttf", "Poppins", "normal");
 
         doc.addFileToVFS("MeowScript-Regular.ttf", btoa(String.fromCharCode(...new Uint8Array(meowFont))));
         doc.addFont("MeowScript-Regular.ttf", "Meow", "normal");
