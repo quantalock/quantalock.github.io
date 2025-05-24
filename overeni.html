@@ -2,38 +2,48 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ověření certifikátu | Quantalock</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .verifikator {
-      max-width: 600px;
-      margin: 0 auto;
+    .verify-section {
       text-align: center;
+      padding: 4rem 1rem;
+      max-width: 800px;
+      margin: auto;
     }
-    input[type="file"] {
-      margin: 2rem 0;
+
+    .verify-section input[type="file"] {
+      margin-top: 1rem;
     }
-    .result {
-      margin-top: 1.5rem;
-      font-size: 1.2rem;
+
+    .verify-section .result {
+      margin-top: 2rem;
+      font-size: 1.1rem;
       font-weight: bold;
     }
-    .result.ok {
-      color: #00ffcc;
+
+    .verify-section .result.success {
+      color: #4ce67a;
     }
-    .result.fail {
-      color: #ff6666;
+
+    .verify-section .result.fail {
+      color: #ff6e6e;
+    }
+
+    .verify-section a {
+      color: #b5d9ff;
+      text-decoration: underline;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-
   <header class="site-header">
     <div class="container">
-      <a href="index.html" class="logo">
-        <img src="assets/logo-small.png" alt="Quantalock logo">
-      </a>
+      <a href="index.html" class="logo"><img src="assets/logo-small.png" alt="Quantalock" /></a>
       <nav class="main-nav">
         <ul>
           <li><a href="aktuality.html">Aktuality</a></li>
@@ -48,64 +58,52 @@
     </div>
   </header>
 
-  <main class="page-content">
-    <div class="verifikator">
-      <h1>Ověření certifikátu</h1>
-      <p>Nahrajte PDF certifikát. Systém ověří, zda je jeho hash přítomen v oficiálním seznamu.</p>
-      
-      <input type="file" id="fileInput" accept="application/pdf" />
-      <div class="result" id="resultBox"></div>
-    </div>
-
-  <p style="margin-top: 2rem;">
-  <a href="assets/certifikaty.csv" download style="color: #b5d9ff; text-decoration: underline;">
-    📄 Stáhnout veřejný seznam hashů certifikátů (.csv)
-  </a>
- </p>
-  
-  
-  
+  <main class="verify-section">
+    <h1>Ověření certifikátu</h1>
+    <p>Nahrajte PDF certifikát. Systém ověří, zda je jeho hash přítomen v oficiálním seznamu.</p>
+    <input type="file" id="pdfFile" accept="application/pdf" />
+    <div class="result" id="result"></div>
+    <a href="assets/certifikaty.csv" download>⬇ Stáhnout veřejný seznam hashů certifikátů (.csv)</a>
   </main>
 
   <footer class="site-footer">
-    &copy; 2025 Quantalock. Všechna práva vyhrazena.
-    | <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a>
+    © 2025 Quantalock. Všechna práva vyhrazena. | <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a>
   </footer>
 
   <script>
-    async function sha256(buffer) {
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    async function loadValidHashes() {
-      const response = await fetch('assets/certifikaty.csv');
-      const text = await response.text();
-      return text.trim().split('\n').map(line => line.trim());
-    }
-
-    document.getElementById('fileInput').addEventListener('change', async function (event) {
+    document.getElementById('pdfFile').addEventListener('change', async function (event) {
       const file = event.target.files[0];
+      const resultElement = document.getElementById('result');
+      resultElement.textContent = '';
+
       if (!file) return;
 
-      const resultBox = document.getElementById('resultBox');
-      resultBox.textContent = 'Ověřuji...';
-      resultBox.className = 'result';
+      // Převod PDF na ArrayBuffer
+      const buffer = await file.arrayBuffer();
 
-      const arrayBuffer = await file.arrayBuffer();
-      const hash = await sha256(arrayBuffer);
-      const validHashes = await loadValidHashes();
+      // Spočítat SHA-256 hash
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-      if (validHashes.includes(hash)) {
-        resultBox.textContent = '✅ Certifikát je platný.';
-        resultBox.classList.add('ok');
-      } else {
-        resultBox.textContent = '❌ Tento dokument nebyl nalezen mezi platnými certifikáty.';
-        resultBox.classList.add('fail');
-      }
+      // Načíst certifikaty.csv a porovnat
+      fetch('assets/certifikaty.csv')
+        .then(response => response.text())
+        .then(text => {
+          const lines = text.split('\n').map(line => line.trim());
+          if (lines.includes(hashHex)) {
+            resultElement.textContent = '✅ Certifikát je platný.';
+            resultElement.className = 'result success';
+          } else {
+            resultElement.textContent = '❌ Certifikát nebyl nalezen v seznamu.';
+            resultElement.className = 'result fail';
+          }
+        })
+        .catch(err => {
+          resultElement.textContent = 'Chyba při načítání seznamu.';
+          resultElement.className = 'result fail';
+        });
     });
   </script>
-
 </body>
 </html>
