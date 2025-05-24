@@ -1,59 +1,105 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <title>Certifikát s fontem Poppins</title>
+  <title>Online školení – Certifikát</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      color: white;
+      background-color: black;
+      background-image: url('../assets/bg-smazana.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 1rem;
+    }
+    .logo {
+      margin-top: 20px;
+      width: 200px;
+    }
+  </style>
 </head>
-<body style="text-align: center; font-family: sans-serif; background: #111; color: white; padding: 2rem;">
-  <h1>Generátor certifikátu (Poppins)</h1>
-  <p>Zadejte své jméno:</p>
-  <input type="text" id="name" placeholder="Jméno a příjmení" style="padding: 0.5rem; font-size: 1rem;" />
-  <br><br>
-  <button onclick="generate()">Vytvořit PDF</button>
+<body>
+  <img src="../assets/logo.png" class="logo" alt="Logo Quantalock">
+  <h1>Generování certifikátu</h1>
+  <input type="text" id="jmeno" placeholder="Zadejte své jméno" />
+  <br>
+  <button onclick="generujCertifikat()">Vytisknout zkušební certifikát</button>
 
-  <script>
-    const { jsPDF } = window.jspdf;
+  <script type="module">
+    import {{ jsPDF }} from "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 
-    // Base64 font Poppins-Regular (zkrácený náhled, v reálu by měl být kompletní)
-    const fontBase64 = 'AAEAAAAPAIAAAwBwRFNJRwAAAAEAAjeYAAAACEdERUYJFgkZAAH+PAAA...'; // ZDE vlož celý base64
-
-    jsPDF.API.events.push(['addFonts', function () {
-      this.addFileToVFS("Poppins-Regular.ttf", fontBase64);
-      this.addFont("Poppins-Regular.ttf", "Poppins", "normal");
-    }]);
-
-    function generate() {
-      const name = document.getElementById("name").value.trim();
-      if (!name) {
-        alert("Zadejte jméno.");
-        return;
-      }
-
-      const today = new Date().toLocaleDateString('cs-CZ');
+    window.generujCertifikat = async function () {{
+      const {{ jsPDF }} = window.jspdf;
       const doc = new jsPDF();
-      doc.setFont("Poppins");
-      doc.setFontSize(18);
-      doc.setTextColor(0, 0, 0);
-      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 30, { align: "center" });
 
-      doc.setFontSize(14);
-      doc.text(`Tímto potvrzujeme, že`, 105, 45, { align: "center" });
+      const jmeno = document.getElementById('jmeno').value || 'Neznámý uživatel';
 
-      doc.setFontSize(16);
-      doc.text(name, 105, 55, { align: "center" });
+      // Pozadí obrázek
+      const bgImg = await fetch("../assets/bg-smazana.jpg").then(r => r.blob()).then(blob => {
+        return new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        });
+      });
+
+      // Logo obrázek
+      const logoImg = await fetch("../assets/logo.png").then(r => r.blob()).then(blob => {
+        return new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        });
+      });
+
+      doc.addImage(bgImg, 'JPEG', 0, 0, 210, 297);
+      doc.addImage(logoImg, 'PNG', 65, 20, 80, 25);
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(20);
+      doc.setFont(undefined, 'bold');
+      doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 60, {{ align: "center" }});
 
       doc.setFontSize(12);
-      doc.text("úspěšně absolvoval(a) školení", 105, 65, { align: "center" });
-      doc.setFontSize(13);
-      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 75, { align: "center" });
+      doc.setFont(undefined, 'normal');
+      doc.text("Tímto potvrzujeme, že", 105, 75, {{ align: "center" }});
+      doc.setFont(undefined, 'bold');
+      doc.text(jmeno, 105, 85, {{ align: "center" }});
+
+      doc.setFont(undefined, 'normal');
+      doc.text("úspěšně absolvoval(a) školení", 105, 95, {{ align: "center" }});
+      doc.setFont(undefined, 'bold');
+      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 105, {{ align: "center" }});
 
       doc.setFontSize(10);
-      doc.text("Datum vystavení: " + today, 105, 90, { align: "center" });
-      doc.text("Ověření: https://quantalock.cz/overeni", 105, 100, { align: "center" });
+      doc.setFont(undefined, 'normal');
+      doc.text("Datum vystavení: 24. 5. 2025", 105, 115, {{ align: "center" }});
+      doc.text("Ověření certifikátu: https://quantalock.cz/overeni", 105, 122, {{ align: "center" }});
 
-      doc.save(`certifikat-${name.replace(/\s+/g, "_")}.pdf`);
-    }
+      const bodyText = [
+        "Absolvent kurzu má přehled o problematice:",
+        "- vývoje kvantových počítačů a jejich možnostech",
+        "- kryptografických metodách",
+        "- podstatě principu HNDL",
+        "- PQC (postkvantových algoritmech)",
+        "- QKD (kvantové distribuci klíčů)",
+        "- doporučení NÚKIB v rámci kvantových hrozeb",
+        "- metodice nasazení kvantově bezpečné kryptografie"
+      ];
+      doc.setFontSize(8);
+      doc.text(bodyText, 25, 150);
+
+      doc.save("certifikat-" + jmeno.replace(/\s+/g, '_') + ".pdf");
+    }}
   </script>
 </body>
 </html>
