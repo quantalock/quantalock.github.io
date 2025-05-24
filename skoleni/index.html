@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>Online školení | Quantalock</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/polyfills.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -20,6 +22,7 @@
       padding: 10px;
       font-size: 1rem;
       margin: 10px;
+      font-family: 'Poppins', sans-serif;
     }
     button {
       cursor: pointer;
@@ -34,6 +37,7 @@
   <script>
     async function generatePDF() {
       const { jsPDF } = window.jspdf;
+
       const doc = new jsPDF();
 
       const name = document.getElementById('nameInput').value.trim();
@@ -47,10 +51,18 @@
       const background = await loadImage("../assets/bg-smazana.jpg");
       const logo = await loadImage("../assets/logo.png");
 
+      // Načtení fontu MeowScript
+      const meowFont = await fetch("../assets/MeowScript-Regular.ttf")
+        .then(res => res.arrayBuffer());
+
+      doc.addFileToVFS("MeowScript-Regular.ttf", btoa(String.fromCharCode(...new Uint8Array(meowFont))));
+      doc.addFont("MeowScript-Regular.ttf", "Meow", "normal");
+
       doc.addImage(background, 'JPEG', 0, 0, 210, 297);
       doc.addImage(logo, 'PNG', 80, 20, 50, 20);
 
       doc.setTextColor(255, 255, 255);
+      doc.setFont("Poppins", "normal");
       doc.setFontSize(20);
       doc.text("CERTIFIKÁT O ABSOLVOVÁNÍ", 105, 60, { align: "center" });
 
@@ -80,10 +92,20 @@
         "- metodice nasazení kvantově bezpečné kryptografie"
       ];
 
+      doc.setFont("Poppins", "normal");
       doc.setFontSize(9);
       doc.text(content, 25, 150);
 
-      doc.save(`certifikat-${name.replace(/\\s+/g, '_')}.pdf`);
+      // Podpis Aidy Blažkové
+      doc.setFont("Meow", "normal");
+      doc.setFontSize(28);
+      doc.text("Aida Blažková", 150, 185);
+
+      doc.setFont("Poppins", "normal");
+      doc.setFontSize(9);
+      doc.text("garantka školení", 150, 192);
+
+      doc.save(`certifikat-${name.replace(/\s+/g, '_')}.pdf`);
     }
 
     function loadImage(url) {
