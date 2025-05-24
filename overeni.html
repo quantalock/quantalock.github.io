@@ -32,11 +32,11 @@
     }
 
     .verify-section a {
-      color: #b5d9ff;
+      color: white;
       text-decoration: underline;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       display: inline-block;
-      margin-top: 2rem;
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -63,6 +63,7 @@
     <p>Nahrajte PDF certifikát. Systém ověří, zda je jeho hash přítomen v oficiálním seznamu.</p>
     <input type="file" id="pdfFile" accept="application/pdf" />
     <div class="result" id="result"></div>
+    <p style="margin-top: 2rem;">Můžete si certifikáty ověřit i samy. Zde jsou ke stažení hash certifikátu (funkce SHA-256).</p>
     <a href="assets/certifikaty.csv" download>⬇ Stáhnout veřejný seznam hashů certifikátů (.csv)</a>
   </main>
 
@@ -78,15 +79,11 @@
 
       if (!file) return;
 
-      // Převod PDF na ArrayBuffer
       const buffer = await file.arrayBuffer();
-
-      // Spočítat SHA-256 hash
       const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-      // Načíst certifikaty.csv a porovnat
       fetch('assets/certifikaty.csv')
         .then(response => response.text())
         .then(text => {
@@ -99,7 +96,7 @@
             resultElement.className = 'result fail';
           }
         })
-        .catch(err => {
+        .catch(() => {
           resultElement.textContent = 'Chyba při načítání seznamu.';
           resultElement.className = 'result fail';
         });
