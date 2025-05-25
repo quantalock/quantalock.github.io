@@ -91,13 +91,13 @@
       
       const content = [
         "Absolvent kurzu má přehled o problematice:",
-        "- vývoje kvantových počítačů a jejich možnostech",
-        "- kryptografických metodách",
-        "- podstatě principu HNDL",
-        "- PQC (postkvantových algoritmech)",
-        "- QKD (kvantové distribuci klíčů)",
-        "- doporučení NÚKIB v rámci kvantových hrozeb",
-        "- metodice nasazení kvantově bezpečné kryptografie"
+        "- vývoje kvantových počítačů a jejich možnostech -",
+        "- kryptografických metodách -",
+        "- podstatě principu HNDL -",
+        "- PQC (postkvantových algoritmech) -",
+        "- QKD (kvantové distribuci klíčů) -",
+        "- doporučení NÚKIB v rámci kvantových hrozeb -",
+        "- metodice nasazení kvantově bezpečné kryptografie -"
       ];
 
       doc.setFontSize(12);
@@ -110,8 +110,7 @@
       doc.text("Datum vystavení", 40, 250);
       
       
-      doc.text("Ověření: https://quantalock.cz/overeni", 105, 270, { align: "center" });
-
+    
 
       
       // podpis
@@ -123,7 +122,32 @@
       doc.setFontSize(9);
       doc.text("garantka školení", 150, 250);
 
-      doc.save(`certifikat-${name.replace(/\s+/g, '_')}.pdf`);
+      doc.text("Ověření: https://quantalock.cz/overeni", 105, 270, { align: "center" });
+
+
+      
+    // hash
+    const pdfBytes = doc.output('arraybuffer');
+    const hashBuffer = await crypto.subtle.digest('SHA-256', pdfBytes);
+    const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    doc.text(hashhax, 105, 275, { align: "center" });
+
+      
+
+      // vlastnosti dokumentu
+  doc.setProperties({
+  title: "Certifikát Quantalock",
+  subject: "Postkvantové školení",
+  author: "Quantalock",
+  keywords: "certifikát, kvantová kryptografie",
+  creator: "Quantalock Generator v1.0"
+  });
+
+      
+  doc.save(`certifikat-${name.replace(/\s+/g, '_')}.pdf`);
+
+  
+      
     } catch (e) {
       console.error("Chyba při generování PDF:", e);
       alert("Něco se nepovedlo při generování certifikátu.");
