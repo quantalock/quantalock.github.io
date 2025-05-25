@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technologie | Quantalock</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .news-table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    .news-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      vertical-align: top;
+    }
+    .news-table td:first-child {
+      width: 110px;
+      font-weight: bold;
+      color: #b5d9ff;
+    }
+    .news-table td a {
+      color: white;
+      text-decoration: underline;
+    }
+    .news-table td strong {
+      font-size: 1.1rem;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo-small.png" alt="Quantalock logo" />
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="aktuality.html">Aktuality</a></li>
+          <li><a href="technologie.html" class="active">Technologie</a></li>
+          <li><a href="overeni.html">Ověření certifikátů</a></li>
+          <li><a href="skoleni/">Online školení</a></li>
+          <li><a href="kvantove-hrozby.html">Edukační videa</a></li>
+          <li><a href="team.html">O nás</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="intro">
+      <h1>Technologie</h1>
+      <p>Jaké technologie používáme na inventarizaci a monitoring a jaké na kvantovou distribuci klíčů?</p>
+    </div>
+
+    <table class="news-table" id="news-table">
+      <!-- Naplní se skriptem -->
+    </table>
+  </main>
+
+  <footer class="site-footer">
+    &copy; 2025 Quantalock. Všechna práva vyhrazena.
+    | <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a>
+  </footer>
+
+  <script>
+    fetch('assets/technologie.csv')
+      .then(response => response.text())
+      .then(text => {
+        const rows = text.trim().split('\n').slice(1); // skip header
+        const table = document.getElementById('news-table');
+        rows.reverse().forEach(line => {
+          const parts = line.split(',');
+          const [iso, titulek, popis, odkaz] = parts;
+          const [y, m, d] = iso.split('-');
+          const datum = `${d}. ${m}. ${y}`;
+
+          const titulekHTML = odkaz
+            ? `<strong><a href="${odkaz}" target="_blank">${titulek}</a></strong>`
+            : `<strong>${titulek}</strong>`;
+
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${datum}</td><td>${titulekHTML}<br>${popis}</td>`;
+          table.appendChild(row);
+        });
+      });
+  </script>
+
+</body>
+</html>
