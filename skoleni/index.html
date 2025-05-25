@@ -1,179 +1,52 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <title>Online školení | Quantalock</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-image: url('../assets/bg-smazana.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      color: white;
-      text-align: center;
-      padding: 3rem 1rem;
-    }
-    input, button {
-      padding: 10px;
-      font-size: 1rem;
-      margin: 10px;
-    }
-    button {
-      cursor: pointer;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Školení | Quantalock</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1>Generátor certifikátu</h1>
-  <input type="text" id="nameInput" placeholder="Zadejte své jméno" />
-  <button id="generateBtn">Vytisknout zkušební certifikát</button>
+<body class="skoleni-page">
+  <header class="site-header">
+  <div class="container">
+    <a href="index.html" class="logo">
+      <img src="assets/logo-small.png" alt="Quantalock logo">
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="aktuality.html">Aktuality</a></li>
+        <li><a href="technologie.html">Technologie</a></li>
+        <li><a href="overeni.html">Ověření certifikátů</a></li>
+        <li><a href="skoleni/" class="active">Online školení</a></li>
+        <li><a href="kvantove-hrozby.html">Edukační videa</a></li>
+        <li><a href="team.html">O nás</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+    </div>
+  </div>
 
-  <script>
-  document.getElementById('generateBtn').addEventListener('click', async () => {
-    const { jsPDF } = window.jspdf;
+<main class="page-content">
+  <section class="intro">
+    <h1>Online školení</h1>
+  </section>
 
-    try {
-      const doc = new jsPDF();
-
-      const name = document.getElementById('nameInput').value.trim();
-      if (!name) {
-        alert("Zadejte své jméno.");
-        return;
-      }
-
-      const today = new Date().toLocaleDateString('cs-CZ');
-      const now = new Date();
-      const time = now.toLocaleTimeString('cs-CZ'); // např. 16:31:12
-      
-      const background = await loadImage("../assets/bg-smazana.jpg");
-      const logo = await loadImage("../assets/logo.png");
-
-      const poppinsFont = await fetch("../assets/poppins.regular.ttf").then(res => res.arrayBuffer());
-      const meowFont = await fetch("../assets/MeowScript-Regular.ttf").then(res => res.arrayBuffer());
-
-      doc.addFileToVFS("poppins.regular.ttf", arrayBufferToBase64(poppinsFont));
-      doc.addFont("poppins.regular.ttf", "Poppins", "normal");
-
-      doc.addFileToVFS("MeowScript-Regular.ttf", arrayBufferToBase64(meowFont));
-      doc.addFont("MeowScript-Regular.ttf", "Meow", "normal");
-
-      doc.setFont("Poppins", "normal");
-      doc.addImage(background, 'JPEG', 0, 0, 210, 297);
-
-      // Zvětšení loga uprostřed stránky
-      const logoWidth = 100;
-      const logoHeight = 42; // upraveno proporčně
-      const pageCenter = 105; // A4 na šířku = 210 mm / 2
-      doc.addImage(logo, 'PNG', pageCenter - logoWidth / 2, 15, logoWidth, logoHeight);
-
-      
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(60);
-      doc.text("CERTIFIKÁT", 105, 90, { align: "center" });
-
-      doc.setFontSize(20);
-      doc.text("o absolvování kurzu", 105, 100, { align: "center" });
-
-
-      
-      //doc.setFontSize(12);
-      //doc.text("Tímto potvrzujeme, že", 105, 80, { align: "center" });
-
-      doc.setFontSize(22);
-      doc.text("Postkvantová kryptografie a kvantové hrozby", 105, 120, { align: "center" });
-
-      doc.setFontSize(28);
-      doc.text(name, 105, 140, { align: "center" });
-      //doc.text("úspěšně absolvoval(a) školení", 105, 130, { align: "center" });
-
-      
-      
-      const content = [
-        "Absolvent kurzu má přehled o problematice:",
-        "- vývoje kvantových počítačů a jejich možnostech -",
-        "- kryptografických metodách -",
-        "- podstatě principu HNDL -",
-        "- PQC (postkvantových algoritmech) -",
-        "- QKD (kvantové distribuci klíčů) -",
-        "- doporučení NÚKIB v rámci kvantových hrozeb -",
-        "- metodice nasazení kvantově bezpečné kryptografie -"
-      ];
-
-      doc.setFontSize(12);
-      doc.text(content, 105, 165, { align: "center" });
-
-
-      doc.setFontSize(12);
-      doc.text(today, 42, 245);
-      doc.setFontSize(9);
-      doc.text("Datum vystavení", 40, 250);
-      
-      
-    
-
-      
-      // podpis
-      doc.setFont("Meow", "normal");
-      doc.setFontSize(28);
-      doc.text("Aida Blažková", 140, 245);
-
-      doc.setFont("Poppins", "normal");
-      doc.setFontSize(9);
-      doc.text("garantka školení", 150, 250);
-
-      doc.text("Ověření: https://quantalock.cz/overeni", 105, 270, { align: "center" });
-
-
-      
-    // hash
-    const pdfBytes = doc.output('arraybuffer');
-    const hashBuffer = await crypto.subtle.digest('SHA-256', pdfBytes);
-    const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-    doc.text(hashHex, 105, 275, { align: "center" });
-
-      
-
-      // vlastnosti dokumentu
-  doc.setProperties({
-  title: "Certifikát Quantalock",
-  subject: "Postkvantové školení",
-  author: "Quantalock",
-  keywords: "certifikát, kvantová kryptografie",
-  creator: "Quantalock Generator v1.0"
-  });
-
-      
-  doc.save(`certifikat-${name.replace(/\s+/g, '_')}.pdf`);
+  <div style="margin-top: 2rem;"></div>
+  <section class="contact-block" style="background-color: transparent;">
+    <h3>Připravujeme nová online školení</h3>
+    <p><strong>Kvantové hrozby I - </strong> Předpokládané spuštění 1.7.2025</p>
+    <p><strong>Kvantové hrozby II - </strong> Předpokládané spuštění 1.7.2025</p>
+  </section>
+  
+</main>
 
   
-      
-    } catch (e) {
-      console.error("Chyba při generování PDF:", e);
-      alert("Něco se nepovedlo při generování certifikátu.");
-    }
-  });
-
-  function loadImage(url) {
-    return new Promise(resolve => {
-      const img = new Image();
-      img.crossOrigin = "Anonymous";
-      img.onload = () => resolve(img);
-      img.src = url;
-    });
-  }
-
-  function arrayBufferToBase64(buffer) {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    for (let i = 0; i < bytes.byteLength; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary);
-  }
-</script>
-
+  <footer class="site-footer">
+    <p>&copy; 2025 Quantalock. Všechna práva vyhrazena.  
+    | <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a></p>
+  </footer>
 </body>
 </html>
