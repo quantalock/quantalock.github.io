@@ -1,76 +1,160 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kontakt | Quantalock</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background-color: #0c0c0c;
+      background-image: url('assets/bg-smazana.jpg');
+      background-size: cover;
+      background-attachment: fixed;
       color: white;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
       padding: 2rem;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+      background-color: rgba(0, 0, 0, 0.75);
     }
-    h1 {
-      text-align: center;
-      font-size: 2rem;
-      margin-bottom: 2rem;
+
+    header.site-header {
+      background: #000;
+      padding: 1rem 0;
     }
-    .section {
-      margin-bottom: 2rem;
+
+    .site-header .logo img {
+      height: 40px;
     }
-    .section h2 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      border-bottom: 1px solid #444;
-      padding-bottom: 0.2rem;
-    }
-    .section p, .section li {
-      line-height: 1.6;
-    }
-    .section ul {
+
+    .main-nav ul {
       list-style: none;
-      padding-left: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0;
+      margin: 1rem 0 0;
+      gap: 1rem;
     }
-    .section li {
-      margin-bottom: 0.5rem;
-    }
-    .label {
-      display: inline-block;
-      width: 160px;
-      font-weight: 600;
-    }
-    a {
+
+    .main-nav a {
       color: #70d8ff;
       text-decoration: none;
+      font-weight: bold;
     }
-    a:hover {
+
+    .main-nav a:hover, .main-nav .active {
       text-decoration: underline;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .contact-block {
+      margin-bottom: 2rem;
+    }
+
+    .contact-block p {
+      margin: 0.3rem 0;
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .person img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-right: 1rem;
+      object-fit: cover;
+    }
+
+    footer.site-footer {
+      text-align: center;
+      font-size: 0.8rem;
+      padding: 1rem;
+      background-color: #000;
+    }
+
+    a {
+      color: #70d8ff;
     }
   </style>
 </head>
 <body>
-  <h1>Kontakt</h1>
 
-  <div class="section">
-    <h2>Quantalock s.r.o.</h2>
-    <p><span class="label">IČO:</span> 22384804</p>
-    <p><span class="label">Sídlo:</span> Návětrná 560/17, Bukov, 400 01 Ústí nad Labem</p>
-    <p><span class="label">E-mail:</span> <a href="mailto:info@quantalock.cz">info@quantalock.cz</a></p>
-    <p><span class="label">Datová schránka:</span> 942z7kw</p>
-  </div>
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo-small.png" alt="Quantalock logo">
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="aktuality.html">Aktuality</a></li>
+          <li><a href="technologie.html">Technologie</a></li>
+          <li><a href="overeni.html">Ověření certifikátů</a></li>
+          <li><a href="skoleni/">Online školení</a></li>
+          <li><a href="kvantove-hrozby.html">Edukační videa</a></li>
+          <li><a href="team.html">O nás</a></li>
+          <li><a href="kontakt.html" class="active">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-  <div class="section">
-    <h2>Kontaktní osoby</h2>
-    <ul>
-      <li><span class="label">Jaroslav Hercík:</span> <a href="mailto:jaroslav.hercik@quantalock.cz">jaroslav.hercik@quantalock.cz</a></li>
-      <li><span class="label">Marek Pail:</span> <a href="mailto:marek.pail@quantalock.cz">marek.pail@quantalock.cz</a></li>
-      <li><span class="label">Aida Blažková:</span> <a href="mailto:aida.blazkova@quantalock.cz">aida.blazkova@quantalock.cz</a></li>
-    </ul>
-  </div>
+  <main class="container">
+    <h1>Kontakt</h1>
+
+    <div class="contact-block">
+      <h2>Quantalock s.r.o.</h2>
+      <p><strong>IČO:</strong> 22384804</p>
+      <p><strong>Sídlo:</strong> Návětrná 560/17, Bukov, 400 01 Ústí nad Labem</p>
+      <p><strong>E-mail:</strong> <a href="mailto:info@quantalock.cz">info@quantalock.cz</a></p>
+      <p><strong>Datová schránka:</strong> 942z7kw</p>
+    </div>
+
+    <div class="contact-block">
+      <h2>Kontaktní osoby</h2>
+
+      <div class="person">
+        <img src="assets/team_jarda_m.jpg" alt="Jaroslav Hercík">
+        <div>
+          <strong>Jaroslav Hercík</strong><br>
+          <a href="mailto:jaroslav.hercik@quantalock.cz">jaroslav.hercik@quantalock.cz</a>
+        </div>
+      </div>
+
+      <div class="person">
+        <img src="assets/team_marek_m.jpg" alt="Marek Pail">
+        <div>
+          <strong>Marek Pail</strong><br>
+          <a href="mailto:marek.pail@quantalock.cz">marek.pail@quantalock.cz</a>
+        </div>
+      </div>
+
+      <div class="person">
+        <img src="assets/team_aida_m.jpg" alt="Aida Blažková">
+        <div>
+          <strong>Aida Blažková</strong><br>
+          <a href="mailto:aida.blazkova@quantalock.cz">aida.blazkova@quantalock.cz</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Quantalock. Všechna práva vyhrazena.
+    | <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a></p>
+  </footer>
+
 </body>
 </html>
