@@ -45,7 +45,9 @@
       }
 
       const today = new Date().toLocaleDateString('cs-CZ');
-
+      const now = new Date();
+      const time = now.toLocaleTimeString('cs-CZ'); // např. 16:31:12
+      
       const background = await loadImage("../assets/bg-smazana.jpg");
       const logo = await loadImage("../assets/logo.png");
 
