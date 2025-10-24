@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -7,29 +6,25 @@
   <title>Technologie | Quantalock</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .news-table {
+    .tech-table {
       width: 100%;
       max-width: 900px;
       margin: 0 auto;
       border-collapse: collapse;
     }
-    .news-table td {
+    .tech-table td {
       padding: 1rem;
       border-bottom: 1px solid rgba(255,255,255,0.1);
       vertical-align: top;
     }
-    .news-table td:first-child {
-      width: 110px;
-      font-weight: bold;
-      color: #b5d9ff;
-    }
-    .news-table td a {
+    .tech-table td a {
       color: white;
       text-decoration: underline;
     }
-    .news-table td strong {
+    .tech-table td strong {
       font-size: 1.1rem;
       display: block;
+      color: #b5d9ff;
     }
   </style>
 </head>
@@ -57,10 +52,10 @@
   <main class="page-content">
     <div class="intro">
       <h1>Technologie</h1>
-      <p>Jaké technologie používáme na inventarizaci a monitoring a jaké na kvantovou distribuci klíčů?</p>
+      <p>Jaké technologie používáme na inventarizaci a monitoring, a jaké na kvantovou distribuci klíčů?</p>
     </div>
 
-    <table class="news-table" id="news-table">
+    <table class="tech-table" id="tech-table">
       <!-- Naplní se skriptem -->
     </table>
   </main>
@@ -74,20 +69,18 @@
     fetch('assets/technologie.csv')
       .then(response => response.text())
       .then(text => {
-        const rows = text.trim().split('\n').slice(1); // skip header
-        const table = document.getElementById('news-table');
+        const rows = text.trim().split('\n').slice(1); // přeskočí hlavičku
+        const table = document.getElementById('tech-table');
         rows.reverse().forEach(line => {
           const parts = line.split(',');
-          const [iso, titulek, popis, odkaz] = parts;
-          const [y, m, d] = iso.split('-');
-          const datum = `${d}. ${m}. ${y}`;
+          const [, titulek, popis, odkaz] = parts; // datum ignorujeme
 
           const titulekHTML = odkaz
             ? `<strong><a href="${odkaz}" target="_blank">${titulek}</a></strong>`
             : `<strong>${titulek}</strong>`;
 
           const row = document.createElement('tr');
-          row.innerHTML = `<td>${datum}</td><td>${titulekHTML}<br>${popis}</td>`;
+          row.innerHTML = `<td>${titulekHTML}${popis ? `<br>${popis}` : ''}</td>`;
           table.appendChild(row);
         });
       });
