@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -6,11 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Školení | Quantalock</title>
   <link rel="stylesheet" href="/style.css">
+  <style>
+    .invite-box{
+      max-width:720px;margin:32px auto;padding:24px 20px;border-radius:16px;
+      background:rgba(255,255,255,0.03);box-shadow:0 0 10px rgba(0,0,0,0.12)
+    }
+    .invite-box form{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .invite-box input{
+      flex:1 1 260px;padding:12px 14px;border-radius:10px;border:1px solid #2a2a2a;
+      background:#111;color:#fff;outline:none
+    }
+    .invite-box button{
+      padding:12px 16px;border-radius:10px;border:1px solid #2a2a2a;cursor:pointer
+    }
+    .invite-msg{margin-top:10px;min-height:1.5em}
+    .muted{opacity:.8}
+  </style>
 </head>
 <body class="skoleni-page">
-  <header class="site-header">
+<header class="site-header">
   <div class="container">
-    <a href="index.html" class="logo">
+    <a href="/index.html" class="logo">
       <img src="/assets/logo-small.png" alt="Quantalock logo">
     </a>
     <nav class="main-nav">
@@ -18,7 +33,7 @@
         <li><a href="/aktuality.html">Aktuality</a></li>
         <li><a href="/technologie.html">Technologie</a></li>
         <li><a href="/overeni.html">Ověření certifikátů</a></li>
-        <li><a href="skoleni/" class="active">Online školení</a></li>
+        <li><a href="/skoleni/" class="active">Online školení</a></li>
         <li><a href="/kvantove-hrozby.html">Edukační videa</a></li>
         <li><a href="/team.html">O nás</a></li>
         <li><a href="/kontakt.html">Kontakt</a></li>
@@ -26,27 +41,56 @@
     </nav>
   </div>
 </header>
-    </div>
-  </div>
 
 <main class="page-content">
   <section class="intro">
     <h1>Online školení</h1>
+    <p class="muted">Aktuálně probíhá <strong>uzavřený pilot</strong>. Přístup je možný pouze s pozvánkovým kódem.</p>
   </section>
 
-  <div style="margin-top: 2rem;"></div>
-  <section class="contact-block" style="background-color: transparent;">
-    <h3>Připravujeme nová online školení</h3>
-    <p><strong>Kvantové hrozby I - </strong> Předpokládané spuštění 1.7.2025</p>
-    <p><strong>Kvantové hrozby II - </strong> Předpokládané spuštění 1.7.2025</p>
+  <section class="invite-box">
+    <h3>Vstup s pozvánkovým kódem</h3>
+    <p>Zadejte prosím kód, pokud jste jej obdrželi. (Veřejná verze ještě není k dispozici.)</p>
+    <form id="code-form" novalidate>
+      <input id="code-input" type="text" inputmode="text" autocomplete="one-time-code"
+             placeholder="Zadejte kód" aria-label="Pozvánkový kód">
+      <button type="submit">Ověřit kód</button>
+    </form>
+    <div id="code-msg" class="invite-msg" aria-live="polite"></div>
   </section>
-  
+
+  <section class="contact-block" style="background-color: transparent;">
+    <h3>Připravované moduly</h3>
+    <p><strong>Kvantové hrozby I</strong> – příprava probíhá (veřejné spuštění bude oznámeno na <a href="https://www.linkedin.com/in/jaroslav-herc%C3%ADk-74931586/" target="_blank" rel="noopener">LinkedInu</a>).</p>
+    <p><strong>Kvantové hrozby II</strong> – příprava probíhá.</p>
+  </section>
 </main>
 
-  
-  <footer class="site-footer">
-    <p>&copy; 2025 Quantalock. Všechna práva vyhrazena.  
-    | <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a></p>
-  </footer>
+<footer class="site-footer">
+  <p>&copy; 2025 Quantalock. Všechna práva vyhrazena. |
+    <a href="https://www.linkedin.com/in/jaroslav-herc%C3%ADk-74931586/" target="_blank">LinkedIn</a></p>
+</footer>
+
+<script>
+  const form = document.getElementById('code-form');
+  const input = document.getElementById('code-input');
+  const msg = document.getElementById('code-msg');
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const val = (input.value || '').trim();
+
+    // volitelná lehká kontrola formátu – ať to vypadá "opravdově"
+    if (val.length < 6) {
+      msg.textContent = 'Neplatný formát kódu. Zkuste to znovu.';
+      return;
+    }
+
+    msg.textContent = 'Ověřuji kód…';
+    setTimeout(()=>{
+      msg.textContent = 'Kód není platný nebo pilot je uzavřen.';
+    }, 600);
+  });
+</script>
 </body>
 </html>
