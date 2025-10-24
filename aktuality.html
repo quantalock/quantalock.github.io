@@ -6,29 +6,32 @@
   <title>Aktuality | Quantalock</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .news-table {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      border-collapse: collapse;
+    .linkedin-box {
+      max-width: 800px;
+      margin: 60px auto;
+      text-align: center;
+      background: rgba(255,255,255,0.03);
+      padding: 40px 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
     }
-    .news-table td {
-      padding: 1rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      vertical-align: top;
-    }
-    .news-table td:first-child {
-      width: 110px;
-      font-weight: bold;
+    .linkedin-box h2 {
+      margin-bottom: 1rem;
       color: #b5d9ff;
     }
-    .news-table td a {
-      color: white;
-      text-decoration: underline;
+    .linkedin-box a {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 10px 18px;
+      border-radius: 10px;
+      background-color: #0077b5;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
     }
-    .news-table td strong {
-      font-size: 1.1rem;
-      display: block;
+    .linkedin-box a:hover {
+      background-color: #005f8d;
     }
   </style>
 </head>
@@ -56,41 +59,20 @@
   <main class="page-content">
     <div class="intro">
       <h1>Aktuality</h1>
-      <p>Novinky ze světa kvantového zabezpečení, postkvantové kryptografie a dění v rámci projektu Quantalock.</p>
+      <p>Novinky, články a příspěvky pravidelně sdílíme na našem oficiálním LinkedIn kanálu.</p>
     </div>
 
-    <table class="news-table" id="news-table">
-      <!-- Naplní se skriptem -->
-    </table>
+    <div class="linkedin-box">
+      <h2>Sledujte nás na LinkedIn</h2>
+      <p>Všechny aktuální informace o kvantové bezpečnosti, postkvantové kryptografii a projektu Quantalock najdete zde:</p>
+      <a href="https://www.linkedin.com/company/105981867" target="_blank" rel="noopener">Přejít na LinkedIn</a>
+    </div>
   </main>
 
   <footer class="site-footer">
-    &copy; 2025 Quantalock. Všechna práva vyhrazena.
-    | <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a>
+    &copy; 2025 Quantalock. Všechna práva vyhrazena. |
+    <a href="https://www.linkedin.com/company/105981867" target="_blank">LinkedIn</a>
   </footer>
-
-  <script>
-    fetch('assets/aktuality.csv')
-      .then(response => response.text())
-      .then(text => {
-        const rows = text.trim().split('\n').slice(1); // skip header
-        const table = document.getElementById('news-table');
-        rows.reverse().forEach(line => {
-          const parts = line.split(',');
-          const [iso, titulek, popis, odkaz] = parts;
-          const [y, m, d] = iso.split('-');
-          const datum = `${d}. ${m}. ${y}`;
-
-          const titulekHTML = odkaz
-            ? `<strong><a href="${odkaz}" target="_blank">${titulek}</a></strong>`
-            : `<strong>${titulek}</strong>`;
-
-          const row = document.createElement('tr');
-          row.innerHTML = `<td>${datum}</td><td>${titulekHTML}<br>${popis}</td>`;
-          table.appendChild(row);
-        });
-      });
-  </script>
 
 </body>
 </html>
